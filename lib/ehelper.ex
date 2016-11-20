@@ -1,15 +1,19 @@
 # Convenience helpers for showing docs
 defmodule Ehelper do
-  @moduledoc """
-  Create an Ehelper.e command for access external documentation from the
-  iex shell. Shadows the behaviour of IEx.h
+    @moduledoc """
+    Create an Ehelper.e command for access external documentation from the
+    iex shell. Shadows the behaviour of IEx.h
 
-  """
-  @doc """
-    Prints the documentation for `Ehelper.Helpers`.
+    """
+    
+    import IEx, only: [dont_display_result: 0]
+
+    @doc """
+    Prints the documentation for `Ehelper` and the current
+    list of enabled helpers.
     """
     def e() do
-      Ehelper.Search.h(Ehelper.Helpers)
+      Ehelper.Search.e(Ehelper)
       dont_display_result
     end
 
