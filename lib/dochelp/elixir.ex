@@ -1,4 +1,4 @@
-defmodule IEx.DocHelp.Elixir do
+defmodule Ehelper.DocHelp.Elixir do
   @moduledoc """
   This module provides access to the documentation stored
   by Elixir code in the BEAM files.
@@ -8,9 +8,9 @@ defmodule IEx.DocHelp.Elixir do
   the callback and provide that documentation for the function.
   """
 
-  import IEx.DocHelp
+  import Ehelper.DocHelp
 
-  @behaviour IEx.DocHelp
+  @behaviour Ehelper.DocHelp
 
   def documentation(module) do
     knowable(module, fn -> get_doc(module) end)
@@ -83,7 +83,7 @@ defmodule IEx.DocHelp.Elixir do
     if is_nil(cmodule) do
       nil
     else
-      case IEx.DocHelp.CallBack.documentation(cmodule, function, arity) do
+      case Ehelper.DocHelp.CallBack.documentation(cmodule, function, arity) do
         {:found, [{_header, nil}]} ->
           case documentation(cmodule, function, arity) do
             {:found, [{_header, doc}]} -> doc

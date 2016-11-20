@@ -1,10 +1,12 @@
 # Convenience helpers for showing docs
 defmodule Ehelper do
-  @moduledoc
+  @moduledoc """
+  Create an Ehelper.e command for access external documentation from the
+  iex shell. Shadows the behaviour of IEx.Introspection.h
 
-  import Ehelper, only: [dont_display_result: 0]
+  """
 
-  alias Kernel.Typespec
+  import IEx, only: [dont_display_result: 0]
 
   @doc """
   Prints the documentation for the given module.
@@ -136,7 +138,7 @@ defmodule Ehelper do
 
   defp print_doc(heading, doc) do
     doc = doc || ""
-    if opts = Ehelper.Config.ansi_docs do
+    if opts = IEx.Config.ansi_docs do
       IO.ANSI.Docs.print_heading(heading, opts)
       IO.ANSI.Docs.print(doc, opts)
     else
@@ -146,10 +148,10 @@ defmodule Ehelper do
   end
 
   defp puts_info(string) do
-    IO.puts Ehelper.color(:eval_info, string)
+    IO.puts IEx.color(:eval_info, string)
   end
 
   defp puts_error(string) do
-    IO.puts Ehelper.color(:eval_error, string)
+    IO.puts IEx.color(:eval_error, string)
   end
 end

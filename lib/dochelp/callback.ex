@@ -1,12 +1,12 @@
-defmodule IEx.DocHelp.CallBack do
+defmodule Ehelper.DocHelp.CallBack do
   @moduledoc """
   This module implements a DocHelp behaviour that is used to
   provide the documentation for a callback.
   """
 
-  import IEx.DocHelp
+  import Ehelper.DocHelp
 
-  @behaviour IEx.DocHelp
+  @behaviour Ehelper.DocHelp
 
   def documentation(module) do
     knowable(module, fn -> get_doc(module) end)

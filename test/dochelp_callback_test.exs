@@ -1,7 +1,7 @@
-Code.require_file "../test_helper.exs", __DIR__
+Code.require_file "./test_helper.exs", __DIR__
 
 defmodule IEx.DocHelp.CallBackTest do
-  use IEx.Case
+  use ExUnit.Case
 
   test "documentation/1 for Elixir module" do
     assert {:not_found, _} = Ehelper.DocHelp.CallBack.documentation(Ehelper.Case)

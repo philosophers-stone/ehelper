@@ -1,7 +1,7 @@
-Code.require_file "../test_helper.exs", __DIR__
+Code.require_file "./test_helper.exs", __DIR__
 
 defmodule Ehelper.DocHelp.ElixirTest do
-  use IEx.Case
+  use ExUnit.Case
 
   @h_modules [IEx.Helpers, Kernel, Kernel.SpecialForms]
 
@@ -34,7 +34,7 @@ defmodule Ehelper.DocHelp.ElixirTest do
   end
 
   defp test_mod_lists(function) do
-    Enum.map(@h_modules, fn(mod) -> IEx.DocHelp.Elixir.documentation(mod, function) end)
+    Enum.map(@h_modules, fn(mod) -> Ehelper.DocHelp.Elixir.documentation(mod, function) end)
   end
 
 end

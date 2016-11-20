@@ -1,4 +1,4 @@
-defmodule IEx.DocHelp do
+defmodule Ehelper.DocHelp do
   @moduledoc """
   Documents the callbacks required for a DocHelp module.
 

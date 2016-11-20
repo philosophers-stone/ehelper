@@ -1,4 +1,4 @@
-defmodule IEx.DocHelp.ErlangStub do
+defmodule Ehelper.DocHelp.ErlangStub do
   @moduledoc """
   Stub module to suggest possible addons for Erlang documentation.
 
@@ -8,9 +8,9 @@ defmodule IEx.DocHelp.ErlangStub do
 
   @suggestive "and currently there is no helper installed to provide Erlang documentation"
 
-  import IEx.DocHelp
+  import Ehelper.DocHelp
 
-  @behaviour IEx.DocHelp
+  @behaviour Ehelper.DocHelp
 
   def documentation(module) do
     knowable(module, fn -> get_doc(module) end)
