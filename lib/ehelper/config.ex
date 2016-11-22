@@ -1,21 +1,12 @@
 defmodule Ehelper.Config do
   @moduledoc false
 
-  @table __MODULE__
-  @agent __MODULE__
+  @table IEx.Config
+  @agent IEx.Config
 
   @keys [
     :doc_helpers]
 
-  def new() do
-    tab = :ets.new(@table, [:named_table, :public])
-    true = :ets.insert_new(tab, [after_spawn: []])
-    tab
-  end
-
-  def delete(__MODULE__) do
-    :ets.delete(__MODULE__)
-  end
 
   def configure(options) do
     Agent.update(@agent, __MODULE__, :handle_configure, [options])
@@ -67,22 +58,6 @@ defmodule Ehelper.Config do
     end
   end
 
-  def after_spawn(fun) do
-    Agent.update(@agent, __MODULE__, :handle_after_spawn, [fun])
-  end
-
-  def handle_after_spawn(tab, fun) do
-    :ets.update_element(tab, :after_spawn, {2, [fun | after_spawn()]})
-  end
-
-  def after_spawn() do
-    :ets.lookup_element(@table, :after_spawn, 2)
-  end
-
-  def started?() do
-    Process.whereis(@agent) !== nil
-  end
-
   defp get(key) do
     case Application.fetch_env(:ehelper, key) do
       {:ok, value} ->
@@ -92,12 +67,4 @@ defmodule Ehelper.Config do
     end
   end
 
-  def start_link() do
-    Agent.start_link(__MODULE__, :init, [@table], [name: @agent])
-  end
-
-  def init(tab) do
-    :public = :ets.info(tab, :protection)
-    tab
-  end
 end
