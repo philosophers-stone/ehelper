@@ -56,7 +56,7 @@ defmodule Ehelper.Config do
     Enum.map(@keys, &{&1, default_option(&1)})
   end
 
-  defp default_option(:doc_helpers), do: [{:find, :first},{:helpers, [Ehelper.DocHelp.Elixir, Ehelper.DocHelp.ErlangStub]}]
+  defp default_option(:doc_helpers), do: [{:find, :first},{:helpers, [Ehelper.DocHelp.Elixir, PrintUrl]}]
 
   def doc_helpers(key) do
     d_helpers = get(:doc_helpers)

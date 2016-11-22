@@ -147,11 +147,11 @@ defmodule Ehelper.Search do
     end
   end
 
-  defp puts_info(string) do
+  def puts_info(string) do
     IO.puts IEx.color(:eval_info, string)
   end
 
-  defp puts_error(string) do
+  def puts_error(string) do
     IO.puts IEx.color(:eval_error, string)
   end
 end

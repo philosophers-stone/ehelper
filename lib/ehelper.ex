@@ -1,11 +1,11 @@
 # Convenience helpers for showing docs
 defmodule Ehelper do
     @moduledoc """
-    Create an Ehelper.e command for access external documentation from the
+    Create an Ehelper.e command for accessing external documentation from the
     iex shell. Shadows the behaviour of IEx.h
 
     """
-    
+
     import IEx, only: [dont_display_result: 0]
 
     @doc """
@@ -14,17 +14,18 @@ defmodule Ehelper do
     """
     def e() do
       Ehelper.Search.e(Ehelper)
+      Ehelper.Search.puts_info "Current Helper list #{inspect(Ehelper.Config.doc_helpers(:helpers))}"
       dont_display_result
     end
 
     @doc """
-    Prints the documentation for the given module
+    Searchs the documentation for the given module
     or for the given function/arity pair.
 
     ## Examples
 
-        e(Enum)
-        #=> Prints documentation for Enum
+        e(:erlang)
+        #=> Searchs documentation for :erlang
 
     It also accepts functions in the format `fun/arity`
     and `module.fun/arity`, for example:

@@ -38,11 +38,11 @@ defmodule Ehelper.DocHelp.ErlangStub do
   end
 
   defp get_doc(module, function) do
-    {:not_found, [{inspect(module), "#{inspect(module)}.#{inspect(function)} is an Erlang module function\n #{@suggestive}"}]}
+    {:not_found, [{inspect(module), "#{inspect(module)}.#{Atom.to_string(function)} is an Erlang module function\n #{@suggestive}"}]}
   end
 
   defp get_doc(module, function, arity) do
-     {:not_found, [{inspect(module), "#{inspect(module)}.#{inspect(function)}/#{to_string(arity)} is an Erlang module function\n #{@suggestive}"}]}
+     {:not_found, [{inspect(module), "#{inspect(module)}.#{Atom.to_string(function)}/#{to_string(arity)} is an Erlang module function\n #{@suggestive}"}]}
   end
 
 end
