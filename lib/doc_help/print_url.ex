@@ -1,4 +1,4 @@
-defmodule PrintUrl do
+defmodule Ehelper.DocHelp.PrintUrl do
   @moduledoc """
   Implements DocHelp by printing out a documentation url.
 

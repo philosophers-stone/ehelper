@@ -1,7 +1,8 @@
-defmodule OpenUrl do
+defmodule Ehelper.DocHelp.DashDoc do
   @moduledoc """
-  Uses the system open command to open documentation urls.
+  Search for Documentation using Dash URL's and the open command.
 
+  Only intended to work on OS X machines with Dash installed.
   """
 
   def documentation(module) do

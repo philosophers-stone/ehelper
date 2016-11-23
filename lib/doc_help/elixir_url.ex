@@ -1,4 +1,4 @@
-defmodule ElixirUrl do
+defmodule Ehelper.DocHelp.ElixirUrl do
   @moduledoc """
   Create Elixir URL's for the documention callbacks.
 

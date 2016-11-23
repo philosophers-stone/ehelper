@@ -1,4 +1,4 @@
-defmodule DashUrl do
+defmodule Ehelper.DocHelp.DashUrl do
   @moduledoc """
   Create Dash URL's for the documention callbacks.
 

@@ -1,4 +1,4 @@
-defmodule ErlangUrl do
+defmodule Ehelper.DocHelp.ErlangUrl do
   @moduledoc """
   Create Erlang URL's for the documention callbacks.
 
