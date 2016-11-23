@@ -1,4 +1,4 @@
-Code.require_file "./test_helper.exs", __DIR__
+Code.require_file "../test_helper.exs", __DIR__
 
 defmodule Ehelper.DocHelp.ElixirTest do
   use ExUnit.Case

@@ -1,6 +1,6 @@
-Code.require_file "./test_helper.exs", __DIR__
+Code.require_file "../test_helper.exs", __DIR__
 
-defmodule IEx.DocHelp.CallBackTest do
+defmodule Ehelper.DocHelp.CallBackTest do
   use ExUnit.Case
 
   test "documentation/1 for Elixir module" do

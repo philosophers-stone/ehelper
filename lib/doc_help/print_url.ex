@@ -6,8 +6,8 @@ defmodule Ehelper.DocHelp.PrintUrl do
 
   def documentation(module) do
     case elixir?(module) do
-      true -> find(ElixirUrl, module)
-      _  -> find(ErlangUrl, module)
+      true -> find(Ehelper.DocHelp.ElixirUrl, module)
+      _  -> find(Ehelper.DocHelp.ErlangUrl, module)
     end
   end
 
@@ -17,8 +17,8 @@ defmodule Ehelper.DocHelp.PrintUrl do
 
   def documentation(module, function, arity) do
     case elixir?(module) do
-      true -> find(ElixirUrl, module, function, arity)
-      _ ->  find(ErlangUrl, module, function, arity)
+      true -> find(Ehelper.DocHelp.ElixirUrl, module, function, arity)
+      _ ->  find(Ehelper.DocHelp.ErlangUrl, module, function, arity)
     end
   end
 

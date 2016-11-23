@@ -20,7 +20,7 @@ defmodule Ehelper.DocHelp.DashUrl do
   end
 
   defp head(module) do
-    case ElixirUrl.core_elixir?(module) do
+    case Ehelper.DocHelp.ElixirUrl.core_elixir?(module) do
       {true, _app} -> "dash://elixir:"
       _ -> "dash://hex:"
     end
