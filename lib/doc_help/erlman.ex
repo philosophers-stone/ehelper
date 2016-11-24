@@ -50,7 +50,7 @@ defmodule Ehelper.DocHelp.Erlman do
   def get_doc(module, function, arity) when is_atom(module) and is_atom(function) and is_integer(arity) do
     docs = Ehelper.Erlman.get_docs(module, :docs)
     case docs do
-      nil -> { :not_found, [{ "#{inspect module}.#{function}", "No documentation for #{inspect module}.#{function} found\n"}] }
+      nil -> { :not_found, [{ "#{inspect module}.#{function}/#{arity}", "No documentation for #{inspect module}.#{function} found\n"}] }
       _   -> find_doc(docs, module, function, arity)
     end
   end
@@ -59,7 +59,7 @@ defmodule Ehelper.DocHelp.Erlman do
   def find_doc(docs, module ,function) do
     doc_list = docs |> Enum.filter( fn(x) -> match_function(x, function) end )
     case doc_list do
-      [] -> { :not_found, [{ "#{inspect module}.#{function}", "No documentation for #{inspect module}.#{function} found\n"}] }
+      [] -> { :not_found, [{ "#{inspect module}.#{function}", nodoc(module, function)}] }
       _  -> { :found, get_docstrings(doc_list, module) }
     end
   end
@@ -68,7 +68,7 @@ defmodule Ehelper.DocHelp.Erlman do
   def find_doc(docs, module ,function, arity ) do
     doc_list = docs |> Enum.filter( fn(x) -> match_function(x, function, arity) end )
     case doc_list do
-      [] -> { :not_found, [{ "#{inspect module}.#{function}/#{arity}", "No documentation for #{inspect module}.#{function}/#{arity} found\n"}] }
+      [] -> { :not_found, [{ "#{inspect module}.#{function}/#{arity}", nodoc(module, function, arity)}] }
       _  -> { :found, get_docstrings(doc_list, module) }
     end
   end
@@ -119,6 +119,30 @@ defmodule Ehelper.DocHelp.Erlman do
       true  -> true
       false -> find_default_doc(docstring, function, arity)
     end
+  end
+
+  defp nodoc(:erlang, function) do
+"""
+No documentation for :erlang.#{function} found in the :erlang man page
+Try the Erlang expression documentation
+http://erlang.org/doc/reference_manual/expressions.html
+"""
+  end
+
+  defp nodoc(module, function) do
+    "No documentation for #{module}.#{function} found in the #{module} man page\n"
+  end
+
+  defp nodoc(:erlang, function, arity) do
+"""
+No documentation for :erlang.#{function}/#{arity} found in the :erlang man page
+Try the Erlang expression documentation
+http://erlang.org/doc/reference_manual/expressions.html
+"""
+  end
+
+  defp nodoc(module, function, arity) do
+    "No documentation for #{module}.#{function}/#{arity} found in the #{module} man page\n"
   end
 
 

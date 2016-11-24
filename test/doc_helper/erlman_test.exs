@@ -6,6 +6,12 @@ defmodule Ehelper.DocHelp.ErlmanTest do
     assert status == :found
   end
 
+  # :erlang.xor is not documented in the erlang man page, but in the expression man page.
+  # test "Can find xor" do
+  #   {status , _docstring} = Ehelper.DocHelp.Erlman.documentation(:erlang, :xor)
+  #   assert status == :found
+  # end
+
   test "Format :timer.tc correctly" do
     {status , docstring} = Ehelper.DocHelp.Erlman.documentation(:timer, :tc, 3)
     assert status == :found

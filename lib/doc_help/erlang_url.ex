@@ -5,6 +5,9 @@ defmodule Ehelper.DocHelp.ErlangUrl do
 
   """
 
+  # There are a bunch of functions in the :erlang module that are not documented
+  # in the erlang man page, but as expressions in the User guide. 
+
   @head "http://www.erlang.org/doc/man/"
 
   def url(module) do
