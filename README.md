@@ -62,7 +62,7 @@ The current list of DocHelpers:
 The current default helpers are `[Ehelper.DocHelp.Elixir, Ehelper.DocHelp.PrintUrl]`
 In order to use Ehelper from within iex, you must start iex with the location of all
 the Ehelper BEAM files in it's code path. You can then use import Ehelper at the
-iex prompt or in your .iex files. 
+iex prompt or in your .iex files.
 
 ## TODO
 
@@ -72,6 +72,11 @@ iex prompt or in your .iex files.
   * Figure out how to open URL's on Windows and Linux.
 
 ## Installation
+
+There is a simple install script install.sh that will install the compiled BEAM
+files into `~/.iex/ebin` and a `sample.iex.exs` file that configures the e command
+to use Erlang man pages. You will need to either call `iex` with the `--pa` or `--pz`
+options or `env ERL_LIBS=~/.iex iex`.
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
 
