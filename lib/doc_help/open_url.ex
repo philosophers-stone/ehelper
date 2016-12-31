@@ -1,40 +1,48 @@
 defmodule Ehelper.DocHelp.OpenUrl do
   @moduledoc """
-  Uses the system open command to open documentation urls.
+  Implements DocHelp by printing out a documentation url.
 
   """
 
   def documentation(module) do
     case elixir?(module) do
-      true -> System.cmd("open", [ "dash://elixir:"<>trim(module) ])
-            { :found, [{ inspect(module), "Searching in Dash\n"}] }
-      _  -> System.cmd("open", [ "dash://erl:"<>Atom.to_string(module) ] )
-            { :found, [{ inspect(module), "Searching in Dash\n"}] }
+      true -> find(Ehelper.DocHelp.ElixirUrl, module)
+      _  -> find(Ehelper.DocHelp.ErlangUrl, module)
     end
   end
 
-  def documentation(module, function) do
+  def documentation(module, _function) do
+    documentation(module)
+  end
+
+  def documentation(module, function, arity) do
     case elixir?(module) do
-      true -> System.cmd("open", [ "dash://elixir:"<>trim(module)<>"."<>Atom.to_string(function) ])
-            { :found, [{"#{inspect(module)}.#{to_string(function)}", "Searching in Dash\n"}] }
-      _  -> System.cmd("open", [ "dash://erl:"<>Atom.to_string(module)<>":"<>Atom.to_string(function) ] )
-            { :found, [{"#{inspect(module)}:#{to_string(function)}", "Searching in Dash\n"}] }
+      true -> find(Ehelper.DocHelp.ElixirUrl, module, function, arity)
+      _ ->  find(Ehelper.DocHelp.ErlangUrl, module, function, arity)
     end
   end
 
-  # No way to specify arity on dash search url.
-  def documentation(module, function, _arity) do
-    documentation(module, function)
+  defp find(url_module, module) do
+    case url_module.url(module) do
+      nil -> {:not_found, "No url documentation found for #{inspect module}\n"}
+      url when is_binary(url) ->
+        System.cmd("open", [ url ])
+        {:found, [{inspect(module), "Documentation can be found at "<>url<>"\n"}]}
+    end
+  end
+
+  defp find(url_module, module, function, arity) do
+    case url_module.url(module, function, arity) do
+      nil -> {:not_found, "No url documentation found for #{inspect module}\n"}
+      url when is_binary(url) ->
+        System.cmd("open", [ url ])
+        {:found, [{inspect(module), "Documentation can be found at "<>url<>"\n"}]}
+    end
   end
 
   defp elixir?(module) do
     Atom.to_string(module) |>
     String.starts_with?("Elixir.")
-  end
-
-  defp trim(module) do
-    Atom.to_string(module) |>
-    String.replace( ~r/^Elixir./, "")
   end
 
 end

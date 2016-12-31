@@ -2,7 +2,14 @@
 defmodule Ehelper do
     @moduledoc """
     Create an Ehelper.e command for accessing external documentation from the
-    iex shell. Shadows the behaviour of IEx.h
+    iex shell. Shadows the behaviour of IEx.h and provides a way to add
+    additional backends for searching Erlang man pages. Backends that come
+    with the Ehelper module include:
+
+    * Ehelper.DocHelp.Erlman   - search installed erlang man pages.
+    * Ehelper.DocHelp.PrintUrl - prints the most likely url for the module.
+    * Ehelper.DocHelp.DashDoc  - searches the Dash documentation tool for the module.
+    * Ehelper.DocHelp.PrintUrl - uses the open command on OS/X to open url in the default browser.
 
     """
 
@@ -30,7 +37,7 @@ defmodule Ehelper do
     It also accepts functions in the format `fun/arity`
     and `module.fun/arity`, for example:
 
-        e receive/1
+        e :erlang.abs/1
         e Enum.all?/2
         e Enum.all?
 

@@ -1,6 +1,5 @@
 defmodule EhelperSearchTest do
   use ExUnit.Case
-  doctest Ehelper
 
   test "display Elixir moduledoc" do
     assert Ehelper.Search.e(Atom)

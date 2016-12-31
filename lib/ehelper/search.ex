@@ -154,4 +154,5 @@ defmodule Ehelper.Search do
   def puts_error(string) do
     IO.puts IEx.color(:eval_error, string)
   end
+
 end
