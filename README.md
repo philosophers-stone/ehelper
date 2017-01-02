@@ -57,7 +57,7 @@ The current list of DocHelpers:
   * Ehelper.DocHelp.OpenUrl
     - Calls system open on the output of PrintUrl, only tested on OS X.
   * Ehelper.DocHelp.DashDoc
-    - Open Dash to documentation for function, is currently not hex aware.
+    - Open Dash to documentation for function, has some support for hex.pm downloads.
 
 The current default helpers are `[Ehelper.DocHelp.Elixir, Ehelper.DocHelp.PrintUrl]`
 In order to use Ehelper from within iex, you must start iex with the location of all
