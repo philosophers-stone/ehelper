@@ -14,20 +14,20 @@ defmodule Ehelper.Search do
   def e(module) when is_atom(module) do
     case Code.ensure_loaded(module) do
       {:module, _} ->
-        {find, helpers} = get_helper_config
+        {find, helpers} = get_helper_config()
         Enum.map(get_docs(find, helpers,[module]),
           fn {status, doc_list} -> display_doc_list(status, doc_list) end)
       {:error, reason} ->
         puts_error("Could not load module #{inspect module}, got: #{reason}")
     end
 
-    dont_display_result
+    dont_display_result()
   end
 
   def e(_) do
     puts_error("Invalid arguments for h helper")
 
-    dont_display_result
+    dont_display_result()
   end
 
   @doc """
@@ -48,15 +48,15 @@ defmodule Ehelper.Search do
         end)
     |> display_list_result
 
-    dont_display_result
+    dont_display_result()
   end
 
   def e(module, function) when is_atom(module) and is_atom(function) do
-    {find, helpers} = get_helper_config
+    {find, helpers} = get_helper_config()
     Enum.map(get_docs(find, helpers, [module, function]),
              fn {status, doc_list} -> display_doc_list(status, doc_list) end)
 
-    dont_display_result
+    dont_display_result()
   end
 
   @doc """
@@ -77,15 +77,15 @@ defmodule Ehelper.Search do
         end)
     |> display_list_result
 
-    dont_display_result
+    dont_display_result()
   end
 
   def e(module, function, arity) when is_atom(module) and is_atom(function) and is_integer(arity) do
-    {find, helpers} = get_helper_config
+    {find, helpers} = get_helper_config()
     Enum.map(get_docs(find, helpers, [module, function, arity]),
              fn {status, doc_list} -> display_doc_list(status, doc_list) end)
 
-    dont_display_result
+    dont_display_result()
   end
 
   defp get_docs(:first, helpers, args) do
@@ -100,7 +100,7 @@ defmodule Ehelper.Search do
     |> Enum.filter(fn({status, _doc_list}) -> status != :unknown end)
   end
 
-  defp get_helper_config do
+  defp get_helper_config() do
     {Ehelper.Config.doc_helpers(:find), Ehelper.Config.doc_helpers(:helpers)}
   end
 

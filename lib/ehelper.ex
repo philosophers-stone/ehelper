@@ -22,7 +22,7 @@ defmodule Ehelper do
     def e() do
       Ehelper.Search.e(Ehelper)
       Ehelper.Search.puts_info "Current Helper list #{inspect(Ehelper.Config.doc_helpers(:helpers))}"
-      dont_display_result
+      dont_display_result()
     end
 
     @doc """
