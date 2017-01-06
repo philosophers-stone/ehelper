@@ -59,16 +59,10 @@ defmodule Ehelper.ErlmanTest do
     assert Enum.count(d_list) == 1
   end
 
-  test "get_docs :rpc finds init" do
-     Ehelper.Erlman.get_docs(:rpc, :init )
+  test "get_docs :inet finds peername" do
+    inet_docs =  Ehelper.Erlman.get_docs(:inet, :docs)
+    d_list = for {{:peername, 1}, 1, :def, _sig, markdown } <- inet_docs , do: markdown
+    assert Enum.count(d_list) == 1
   end
-
-
-
-
-  # test "list_functions work when merging parts" do
-  #   nroff = "\n.B\nhappy(Arg) -> Result\n Do not worry, be happy\n\.B\nSinging\nin the rain\n"
-  #   md =
-  # end
 
 end
