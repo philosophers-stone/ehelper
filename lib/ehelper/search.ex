@@ -103,6 +103,7 @@ defmodule Ehelper.Search do
   # A terrible workaround since we are cheating and using Iex.Configure Agent.
   defp get_helper_config() do
     case {Ehelper.Config.doc_helpers(:find), Ehelper.Config.doc_helpers(:helpers)} do
+      {nil, nil }    -> {:first, [Ehelper.DocHelp.Elixir, Ehelper.DocHelp.PrintUrl]}
       {nil, helpers} -> {:first, helpers}
       config -> config
     end

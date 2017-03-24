@@ -31,6 +31,9 @@ defmodule Ehelper.DocHelp.Erlman do
     String.starts_with?("Elixir.")
   end
 
+  # Fix this to return unknown for function versions when we know
+  # the function exists, but we can't parse it in the man page. 
+
   def get_doc(module) when is_atom(module) do
     { _line, doc } = Ehelper.Erlman.get_docs(module, :moduledoc)
     case doc do
