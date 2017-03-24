@@ -36,20 +36,20 @@ defmodule Ehelper.Erlman do
 
   ## Example
 
-        iex> {:ok,path} = Ehelper.Erlman.manpage(":crypto.hash")
+        iex> {:ok,path} = Ehelper.Erlman.manpage(:crypto)
         {:ok, "/usr/local/Cellar/erlang/17.5/lib/erlang/man/man3/crypto.3" }
 
   """
-  def manpage(elixir_erlang_ref) do
+  def manpage(module) do
     mpath = Ehelper.Erlman.manpath
     case mpath do
       nil -> {:error, :eno_manpages}
-      _   -> find_manpage(elixir_erlang_ref,mpath)
+      _   -> find_manpage(module,mpath)
     end
   end
 
-  defp find_manpage(elixir_erlang_ref,mpath) do
-    target = convert(elixir_erlang_ref) |> Enum.at(0)
+  defp find_manpage(module, mpath) do
+    target = convert(module) |> Enum.at(0)
     manfile = mandirs(mpath) |>
               Enum.find_value(fn(dir) -> has_man?(dir,target) end)
     case manfile do
@@ -59,12 +59,12 @@ defmodule Ehelper.Erlman do
   end
 
   @doc """
-  Returns the man page for function_name as a string.
+  Returns the man page for the module as a string.
   Returns `:nofile` if it cannot find the manpage for the
-  functions module.
+   module.
   """
-  def manstring(function_name) do
-    case manpage(function_name) do
+  def manstring(module) do
+    case manpage(module) do
       {:ok, manfile} -> File.read!(manfile)
       {:error, :enoent} -> :nofile
       {:error, :eno_manpages} -> :nofile
@@ -230,10 +230,6 @@ defmodule Ehelper.Erlman do
 
   """
 
-  def get_docs(module, kind) when is_atom(module) do
-    get_docs(":#{to_string(module)}", kind)
-  end
-
   def get_docs(module, kind) do
     mandoc = Ehelper.Erlman.manstring(module)
     if mandoc == :nofile do
@@ -259,8 +255,7 @@ defmodule Ehelper.Erlman do
   Will raise error if :module is not loaded.
   """
   def function_exports(module) do
-    code = module<>".module_info(:exports)"
-    Code.eval_string(code,[],__ENV__) |> elem(0)
+    Kernel.apply(module, :module_info, [:exports])
   end
 
   @doc """
@@ -282,7 +277,7 @@ defmodule Ehelper.Erlman do
   end
 
   def find_arity(module,fname) do
-    function_exports(":"<>module) |>
+    function_exports(module) |>
     Enum.filter_map(fn(tup) -> elem(tup,0) == String.to_atom(fname) end,
                     fn(tup) -> elem(tup,1) end )
   end
@@ -293,9 +288,11 @@ defmodule Ehelper.Erlman do
     Enum.filter(fn(entry) -> File.dir?(entry) end)
   end
 
-  def convert(elixir_erlang_ref) do
-    String.lstrip(elixir_erlang_ref, ?: ) |>
-    String.split(".")
+  def convert(module) do
+    module
+    |> Atom.to_string
+    |> String.lstrip(?:)
+    |> String.split(".")
   end
 
   defp has_man?(dir,target) do

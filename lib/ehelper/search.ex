@@ -100,8 +100,12 @@ defmodule Ehelper.Search do
     |> Enum.filter(fn({status, _doc_list}) -> status != :unknown end)
   end
 
+  # A terrible workaround since we are cheating and using Iex.Configure Agent.
   defp get_helper_config() do
-    {Ehelper.Config.doc_helpers(:find), Ehelper.Config.doc_helpers(:helpers)}
+    case {Ehelper.Config.doc_helpers(:find), Ehelper.Config.doc_helpers(:helpers)} do
+      {nil, helpers} -> {:first, helpers}
+      config -> config
+    end
   end
 
   defp check_nil_doclist(nil, args) do
