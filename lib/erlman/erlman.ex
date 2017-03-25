@@ -137,7 +137,7 @@ defmodule Ehelper.Erlman do
    {{_function, _arity}, _line, _kind, _signature, text}
    signature is a list of tuples of the form {:arg,[],nil}
   """
-  def parse_function(nroff_docstring,functions) do
+  def parse_function(nroff_docstring, functions) do
     fkey = match_function(nroff_docstring, functions)
     arity = get_arity(nroff_docstring)
     signature = get_signature(nroff_docstring)
@@ -149,7 +149,7 @@ defmodule Ehelper.Erlman do
   Does not check for arity.
   """
   def match_function(nroff_dstring, functions) do
-    found = Dict.keys(functions) |>
+    found = Keyword.keys(functions) |>
             Enum.map(fn(x) -> Atom.to_string(x) end ) |>
             Enum.find(fn(fname) -> String.starts_with?(nroff_dstring,fname<>"(") end )
     case found do
