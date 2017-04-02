@@ -6,18 +6,18 @@ defmodule Ehelper.ErlmanTest do
   end
 
   test "Can find manpage" do
-  	{status, path } = Ehelper.Erlman.manpage(":crypto")
+  	{status, path } = Ehelper.Erlman.manpage(:crypto)
     assert status == :ok
     assert String.ends_with? path, "man/man3/crypto.3"
   end
 
   test "Return file not found" do
-    assert Ehelper.Erlman.manpage(":foobar") == {:error, :enoent}
+    assert Ehelper.Erlman.manpage(:foobar) == {:error, :enoent}
   end
 
   test "Can read module for function into string" do
-    {_, path } = Ehelper.Erlman.manpage(":crypto")
-  	assert  File.read!(path) == Ehelper.Erlman.manstring(":crypto.hash")
+    {_, path } = Ehelper.Erlman.manpage(:crypto)
+  	assert  File.read!(path) == Ehelper.Erlman.manstring(:crypto)
   end
 
   test "get_arity works for 0" do
