@@ -42,7 +42,7 @@ defmodule Ehelper.DocHelp.Erlman do
   def get_doc(module, function) when is_atom(module) and is_atom(function) do
     docs = Ehelper.Erlman.get_docs(module, :docs)
     case docs do
-      nil -> { :not_found, [{ "#{inspect module}.#{function}", "No documentation for #{inspect module}.#{function} found\n"}] }
+      nil -> { :not_found, [{ "#{inspect module}.#{function}", nodoc(module, function)}] }
       _   -> find_doc(docs, module, function)
     end
   end
@@ -50,7 +50,7 @@ defmodule Ehelper.DocHelp.Erlman do
   def get_doc(module, function, arity) when is_atom(module) and is_atom(function) and is_integer(arity) do
     docs = Ehelper.Erlman.get_docs(module, :docs)
     case docs do
-      nil -> { :not_found, [{ "#{inspect module}.#{function}/#{arity}", "No documentation for #{inspect module}.#{function} found\n"}] }
+      nil -> { :not_found, [{ "#{inspect module}.#{function}/#{arity}",  nodoc(module, function, arity)}] }
       _   -> find_doc(docs, module, function, arity)
     end
   end
@@ -59,7 +59,7 @@ defmodule Ehelper.DocHelp.Erlman do
   def find_doc(docs, module ,function) do
     doc_list = docs |> Enum.filter( fn(x) -> match_function(x, function) end )
     case doc_list do
-      [] -> { :not_found, [{ "#{inspect module}.#{function}", nodoc(module, function)}] }
+      [] -> maybe(module, function)
       _  -> { :found, get_docstrings(doc_list, module) }
     end
   end
@@ -68,9 +68,22 @@ defmodule Ehelper.DocHelp.Erlman do
   def find_doc(docs, module ,function, arity ) do
     doc_list = docs |> Enum.filter( fn(x) -> match_function(x, function, arity) end )
     case doc_list do
-      [] -> { :not_found, [{ "#{inspect module}.#{function}/#{arity}", nodoc(module, function, arity)}] }
+      [] -> maybe(module, function)
       _  -> { :found, get_docstrings(doc_list, module) }
     end
+  end
+
+  def maybe(module, function) do
+    case exports?(module, function) do
+      true -> { :unknown, [{ "#{inspect module}.#{function}", "#{module} exports #{function}, no documentation found."}] }
+      _    -> { :not_found, [{ "#{inspect module}.#{function}", nodoc(module, function)}] }
+    end
+  end
+
+  # return true if the module exports that function
+  defp exports?(module, function) do
+    Kernel.apply(module, :module_info, [:exports])
+    |> Keyword.has_key?(function)
   end
 
   defp get_docstrings(doc_list, module) do
