@@ -32,7 +32,7 @@ defmodule Ehelper.DocHelp.Erlman do
   end
 
   # Fix this to return unknown for function versions when we know
-  # the function exists, but we can't parse it in the man page. 
+  # the function exists, but we can't parse it in the man page.
 
   def get_doc(module) when is_atom(module) do
     { _line, doc } = Ehelper.Erlman.get_docs(module, :moduledoc)
@@ -79,7 +79,7 @@ defmodule Ehelper.DocHelp.Erlman do
   def maybe(module, function) do
     case exports?(module, function) do
       true -> { :unknown, [{ "#{inspect module}.#{function}", "#{module} exports #{function}, no documentation found."}] }
-      _    -> { :not_found, [{ "#{inspect module}.#{function}", nodoc(module, function)}] }
+      _    -> { :not_found, [{ "#{inspect module}.#{function}", "#{module} does not export the function #{function}.\n"}] }
     end
   end
 
